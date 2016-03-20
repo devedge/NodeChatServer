@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('nodechatserver:server');
 var http = require('http');
 
+var sockjs = require('sockjs');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -15,11 +17,34 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+
+/**
+  * Echo sockjs server
+  */
+
+var sockjs_opts = {sockjs_url: "http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js"};
+
+var sockjs_echo = sockjs.createServer(sockjs_opts);
+sockjs_echo.on('connection', function(conn) {
+    conn.on('data', function(message) {
+        conn.write(message);
+    });
+});
+
+
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+
+
+/*
+ * Start sockjs install handler
+ */
+
+sockjs_echo.installHandlers(server, {prefix:'/echo'});
+
 
 /**
  * Listen on provided port, on all network interfaces.

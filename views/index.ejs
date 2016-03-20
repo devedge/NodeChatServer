@@ -14,11 +14,6 @@
     <link href="stylesheets/style.css" type="text/css" rel="stylesheet">
     <link href="stylesheets/floatlabelpatternform.css" type="text/css" rel="stylesheet">
 
-    <!-- From CDNs -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
-    <!-- Optional theme -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
-
     <!-- Custom CSS -->
 
     
@@ -29,29 +24,23 @@
         <div class="row">
             <div class="col-sm-4"></div>
 
-            <div class="col-sm-4 chatwindow">
-
+            <div id="first" class="col-sm-4">
                 <br><br><br>
 
-                <!-- text popup from socketio stuff -->
-                <ul id="messages"></ul>
+                <!-- text popup from sockjs stuff -->
+                <div id="third"></div>
 
                 <br><br><br>
 
                 <form role="form" onsubmit="">
-                    <div class="form-group float-label-control label-bottom">
+                    <div id="second" class="form-group float-label-control label-bottom">
                         <label for="">Start Typing...</label>
-                        <input type="text" class="form-control" placeholder="Start Typing...">
+                        <input type="text" autocomplete="off" class="form-control" placeholder="Start Typing...">
                     </div>
                 </form>
-
             </div>
-
         </div>
     </div>
-
-
-
 
     <!-- Script Imports (After page load) -->
     <!-- Local -->
@@ -63,44 +52,33 @@
     <script src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
 
     <script>
-        var sock = new SockJS('http://localhost:3000');
+        var sockjs_url = '/echo';
+        var sockjs = new SockJS(sockjs_url);
+        $('#second input').focus();
 
-        sock.onopen = function() {
-            console.log('open');
+        var div = $('#third');
+        var inp = $('#second input');
+        var form = $('#first form');
+
+        var print = function(m, p) {
+            p = (p === undefined) ? '' : JSON.stringify(p);
+            div.append($("<code>").text(m + ' ' + p));
+            div.append($("<br>"));
+            div.scrollTop(div.scrollTop()+10000);
         };
-        sock.onmessage = function(e) {
-            console.log('message', e.data);
-        };
-        sock.onclose = function() {
-            console.log('close');
-        };
 
-        sock.send('test');
-        sock.close();
-    </script>
+        sockjs.onopen = function() {print('[*] open', sockjs.protocol);};
+        sockjs.onmessage = function(e) {print('[.] message', e.data);};
+        sockjs.onclose = function() {print('[*] close');};
 
-
-
-
-<!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-
-    <script>
-        var socket = io();
-        $('form').submit(function(){
-            socket.emit('chatmessage', $('#m').val());
-            $('#m').val('');
+        form.submit(function() {
+            print('[ ] sending', inp.val());
+            sockjs.send(inp.val());
+            inp.val('');
             return false;
         });
 
-        socket.on('chatmessage', function(msg){
-            $('#messages').append($('<li>').text(msg));
-        });
-        
-    </script> -->
-
-    <!-- From CDNs -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+    </script>
 
 </body>
 </html>

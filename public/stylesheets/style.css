@@ -8,7 +8,6 @@ body {
     background:     -ms-linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* IE10 */
     background:      -o-linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* Opera 11.10+ */
     background:         linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* W3C */
-
 };
 
 body {
@@ -19,10 +18,6 @@ body {
     filter: blur(15px);
 };
 
-
-chatwindow {
-    background: #f7f7f7;
-}
 
 a {
     color: #00B7FF;
