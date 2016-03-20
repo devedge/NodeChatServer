@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: -webkit-linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* Chrome 10+, Saf5.1+ */
+    background:    -moz-linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* FF3.6+ */
+    background:     -ms-linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* IE10 */
+    background:      -o-linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* Opera 11.10+ */
+    background:         linear-gradient(90deg, #963FAB 5%, #C6476C 90%); /* W3C */
+
+};
+
+body {
+    -webkit-filter: blur(7px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: blur(15px);
+};
+
+
+chatwindow {
+    background: #f7f7f7;
+}
+
+a {
+    color: #00B7FF;
+}
+
+/*963fab     6b48ae   b38c83     c6476c   */

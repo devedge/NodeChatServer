@@ -1,0 +1,1 @@
+DEBUG=nodechatserver:* npm start
